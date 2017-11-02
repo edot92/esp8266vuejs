@@ -1,0 +1,67 @@
+R"(
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>ESP 8266</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="root">
+    <div class="container-fluid">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 style="text-align: center;" class="panel-title">Kendali ESP8266 Edy Prasetiyo 083876989317 </h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-3">
+              <h5>Kendali Led Pin 2</h5>
+              <button type="button" @click="btnON" class="btn btn-block btn-primary">ON</button>
+              <hr>
+              <button type="button" @click="btnOff" class="btn btn-block btn-danger">OFF</button>
+            </div>
+            <div class="col-md-9">
+              <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="http://192.168.9.158:8080/browserfs.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.2/vue.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.0/axios.min.js"></script>
+  <script>
+    new Vue({
+      el: "#root",
+      methods: {
+        btnON() {
+          this.sendEsp8266Command('on')
+        },
+        btnOff() {
+          this.sendEsp8266Command('off')
+        },
+        sendEsp8266Command(param) {
+          axios({
+            url: 'http://192.168.9.69/api/led',
+            method: 'post',
+            data: {
+              "led": param
+            }
+          }).then(resp => {
+            console.log(resp)
+          }).catch(err => {
+            console.error(err.toString());
+          })
+        }
+      }
+    })
+  </script>
+</body>
+
+</html> )"
